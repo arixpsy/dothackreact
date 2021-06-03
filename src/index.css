@@ -54,7 +54,7 @@ section {
 
 .tile-container {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: 1rem;
   background-color: white;
   margin: auto;
@@ -111,9 +111,14 @@ section {
 
 .pokemon {
   display: grid;
-  grid-template-columns: 200px 1fr;
+  grid-template-columns: 1fr;
 }
 
+@media screen and (min-width: 525px) {
+  .pokemon {
+    grid-template-columns: 200px 1fr;
+  }
+}
 .pokemon > img {
   width: 100%;
   height: auto;
