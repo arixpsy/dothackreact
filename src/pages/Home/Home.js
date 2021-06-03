@@ -7,13 +7,14 @@ import Tile from './../../components/Tile'
 function Home() {
   const [searchPhrase, setSearchPhrase] = useState('')
   const [pokemonList, setPokemonList] = useState([])
+  const [loadingData, setLoadingData] = useState(true)
 
   useEffect(() => {
     getAllPokemon()
     .then(response => {
       const data = response.data
       setPokemonList(data.results)
-    })
+    }).then(() => setLoadingData(false))
   }, [])
 
   const filterPokemon = (pokemon) => {
@@ -25,11 +26,18 @@ function Home() {
       <section>
         <h1 className="title">My Pokedex</h1>
         <SearchBar  onChange={(e) => setSearchPhrase(e.target.value)}/>
-        <TileContainer>
-          { pokemonList.filter(filterPokemon).map(pokemon => 
-            <Tile key={pokemon.name} pokemon={pokemon} />
-            ) }
-        </TileContainer>
+        {
+          loadingData ? 
+          
+          <div class="lds-dual-ring"></div> :
+          
+          <TileContainer>
+            { pokemonList.filter(filterPokemon).map(pokemon => 
+              <Tile key={pokemon.name} pokemon={pokemon} />
+            )}
+          </TileContainer>
+        }
+        
       </section>
     </main>
   )

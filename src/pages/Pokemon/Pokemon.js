@@ -8,12 +8,13 @@ import { Link } from 'react-router-dom'
 function Pokemon() {
   const query = useQuery()
   const [pokemon, setPokemon] = useState(null)
+  const [loadingData, setLoadingData] = useState(true)
 
   useEffect(() => {
     getSinglePokemon(query.get('name'))
     .then(response => {
       setPokemon(response.data)
-    })
+    }).then(() => setLoadingData(false))
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -21,7 +22,11 @@ function Pokemon() {
   return (
     <main>
       <section>
-          { !pokemon ? 
+          { loadingData ? 
+            
+            <div class="lds-dual-ring"></div> :
+            
+            !pokemon ? 
 
             <NotFound /> :
 
